@@ -4,6 +4,7 @@ version: '3.7'
 services:
   db:
     build:
+      context: .
       dockerfile: dockerfiles/DockerfileDB
     environment:
       - POSTGRES_USER=training
@@ -14,6 +15,7 @@ services:
       - db-data:/var/lib/postgresql/data/
   web:
     build:
+      context: .
       dockerfile: dockerfiles/Dockerfile
     image: training/web
     environment:
@@ -23,7 +25,7 @@ services:
       - VIRTUAL_PORT=8000
     volumes:
       - .:/app
-      - web-media:/app/media
+      - web-media:/app/mediafiles
       - web-static:/app/staticfiles
     ports:
       - 8000:8000

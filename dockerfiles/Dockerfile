@@ -1,9 +1,11 @@
-FROM python:3
+FROM ubuntu
 ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app/
 
-RUN apt-get update
+RUN apt-get update && \
+    apt-get -y install python3-pip && \
+    ln -s /usr/bin/python3 /usr/bin/python
 
 COPY requirements.txt ./
 
