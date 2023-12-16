@@ -1,6 +1,8 @@
 /mediafiles
 /staticfiles
 
+Makefile
+
 *.idea/
 *__pycache__
 *.sqlite3
