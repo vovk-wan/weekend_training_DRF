@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_yasg',
+    'django_extensions',
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -137,3 +139,10 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# -------------- shell
+RUNSERVERPLUS_SERVER_ADDRESS_PORT = "0.0.0.0:8000"
+SHELL_PLUS = "ipython"
+SHELL_PLUS_PRINT_SQL_TRUNCATE = None
+# -------------- celery
+CELERY_BROKER_URL = "redis://training_redis:6379/0"

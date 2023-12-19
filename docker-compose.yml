@@ -1,0 +1,59 @@
+version: '3.7'
+
+services:
+  training_db:
+    container_name: training_db
+    image: postgres:14.2
+    environment:
+      - POSTGRES_USER=training
+      - POSTGRES_PASSWORD=training
+    ports:
+      - "5432:5432"
+
+  training_redis:
+    container_name: training_redis
+    image: redis:alpine
+    networks:
+      - default
+    ports:
+      - "6379:6379"
+
+  training_app: &django_conf
+    build:
+      context: ./app
+    container_name: training_app
+    environment:
+      - DEBUG=True
+      - DATABASE_URL=postgres://training:training@training_db/training
+      - VIRTUAL_HOST=training.localhost
+      - VIRTUAL_PORT=8000
+    volumes:
+      - ./app:/app
+      - web-media:/app/media
+      - web-static:/app/staticfiles
+    ports:
+      - 8000:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - training_db
+      - training_redis
+
+  training_celery:
+    <<: *django_conf
+    container_name: training_celery
+    command: celery -A market worker -n default -E -l info
+    ports: [ ]
+    depends_on:
+      - training_redis
+
+  training_celery_beat:
+    <<: *django_conf
+    container_name: training_celery_beat
+    command: celery -A market beat -l DEBUG --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    ports: [ ]
+    depends_on:
+      - training_redis
+
+volumes:
+  web-media:
+  web-static:
