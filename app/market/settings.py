@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_extensions',
     "django_celery_beat",
+    "hello_celery"
 ]
 
 MIDDLEWARE = [
@@ -146,3 +147,5 @@ SHELL_PLUS = "ipython"
 SHELL_PLUS_PRINT_SQL_TRUNCATE = None
 # -------------- celery
 CELERY_BROKER_URL = "redis://training_redis:6379/0"
+CELERY_RESULT_BACKEND = "redis://training_redis:6379/0" # заставим селери сохранять результаты задач в тот же редис
+CELERY_TASK_SERIALIZER = "json"

@@ -8,7 +8,7 @@ services:
       - POSTGRES_USER=training
       - POSTGRES_PASSWORD=training
     ports:
-      - "5432:5432"
+      - "8032:5432"
 
   training_redis:
     container_name: training_redis
@@ -16,7 +16,7 @@ services:
     networks:
       - default
     ports:
-      - "6379:6379"
+      - "8079:6379"
 
   training_app: &django_conf
     build:
@@ -32,7 +32,7 @@ services:
       - web-media:/app/media
       - web-static:/app/staticfiles
     ports:
-      - 8000:8000
+      - 8060:8000
     command: python manage.py runserver 0.0.0.0:8000
     depends_on:
       - training_db
