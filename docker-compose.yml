@@ -9,6 +9,8 @@ services:
       - POSTGRES_PASSWORD=training
     ports:
       - "8032:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data/
 
   training_redis:
     container_name: training_redis
@@ -57,3 +59,4 @@ services:
 volumes:
   web-media:
   web-static:
+  db-data:
